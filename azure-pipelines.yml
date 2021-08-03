@@ -4,17 +4,13 @@ pool:
   vmImage: 'ubuntu-1604' 
 
 steps:
-- task: Docker@2
-  displayName: Build an image
+- task: AzureCLI@2
   inputs:
-    repository: 
-    command: build
-    Dockerfile: app/Dockerfile
-
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      
-      Write-Host "Hello World"
+    azureSubscription: 'Free Trial(21ffa5d8-e7c7-481b-8a23-e5f94872f1fd)'
+    scriptType: 'ps'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      az acr login --name ACRlearning
+      docker login ACRlearning
+      docker build -t nginx .
+      docker push ACRlearning.azurecr.io/nginx
