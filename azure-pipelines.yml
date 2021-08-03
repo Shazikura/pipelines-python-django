@@ -1,11 +1,19 @@
-# Python Django
-# Test a Django project on multiple versions of Python.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
-pool:
-  name: Default
+trigger:
+        - main
+        pool:
+          vmImage: 'ubuntu-1604' 
 
-steps:
+        variables:
+          imageName: 'Shazikura.pipelines-python-django'
+
+        steps:
+        - task: Docker@2
+          displayName: Build an image
+          inputs:
+            repository: $(imageName)
+            command: build
+            Dockerfile: app/Dockerfile
+
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
@@ -13,8 +21,3 @@ steps:
       # Write your PowerShell commands here.
       
       Write-Host "Hello World"
-- task: Docker@2
-  inputs:
-    repository: 'ACRlearning'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
