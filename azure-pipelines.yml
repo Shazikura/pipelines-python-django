@@ -13,3 +13,8 @@ steps:
       # Write your PowerShell commands here.
       
       Write-Host "Hello World"
+- task: Docker@2
+  inputs:
+    repository: 'ACRlearning'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
